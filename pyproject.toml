@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ai-live2d-pipeline"
+version = "0.1.0"
+description = "Auditable image preparation for a future Live2D authoring workflow"
+requires-python = ">=3.10"
+dependencies = ["Pillow==11.3.0"]
+
+[project.scripts]
+live2d-pipeline = "live2d_pipeline.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]

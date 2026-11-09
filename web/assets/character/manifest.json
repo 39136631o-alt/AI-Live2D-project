@@ -1,0 +1,428 @@
+{
+  "schema_version": 1,
+  "name": "銀鈴 / Silverbell",
+  "age": "adult, 20+",
+  "artifact_type": "procedural_layered_2d_character",
+  "official_cubism_model": false,
+  "canvas": {
+    "width": 600,
+    "height": 1100,
+    "origin": "top-left",
+    "units": "pixels"
+  },
+  "artwork": "Simplified original vector redraw guided by the user-supplied reference board. Not an AI illustration or automatic extraction.",
+  "reference_features": [
+    "silver-white long hair",
+    "violet eyes",
+    "left flower and ribbon",
+    "white off-shoulder sleeves",
+    "black fitted bodice",
+    "lavender asymmetric skirt",
+    "asymmetric stockings",
+    "gold trim"
+  ],
+  "occlusion_method": "Complete face, neck, shoulders, torso, arm caps and back hair drawn underneath covering layers; no generative inpainting.",
+  "layers": [
+    {
+      "id": "hair_back",
+      "label": "後髮・完整髮底",
+      "rig": "head",
+      "pivot": [
+        300,
+        218
+      ],
+      "notes": "完整後髮輪廓，身體後方仍有填色；非從平面圖裁切。",
+      "order": 0,
+      "svg": "layers/00_hair_back.svg",
+      "png": "layers/00_hair_back.png",
+      "sha256": "aba5e9578b11e950b8f15918f5f76cea3c1e07a3452d30c4242e5a56d8195059"
+    },
+    {
+      "id": "hair_back_left",
+      "label": "後髮左長束",
+      "rig": "hairBackL",
+      "pivot": [
+        234,
+        180
+      ],
+      "notes": "",
+      "order": 1,
+      "svg": "layers/01_hair_back_left.svg",
+      "png": "layers/01_hair_back_left.png",
+      "sha256": "c91ede9e7f7446fc5fbdb929c438e211d51dca0f81f6218dead98956d67cd601"
+    },
+    {
+      "id": "hair_back_right",
+      "label": "後髮右長束",
+      "rig": "hairBackR",
+      "pivot": [
+        361,
+        180
+      ],
+      "notes": "",
+      "order": 2,
+      "svg": "layers/02_hair_back_right.svg",
+      "png": "layers/02_hair_back_right.png",
+      "sha256": "f532982f58d966de1af260db83c1d02aab66bf825edb5aa85f3ebb44acfc5318"
+    },
+    {
+      "id": "costume_train",
+      "label": "白紫後裙與長飄帶",
+      "rig": "body",
+      "pivot": [
+        300,
+        449
+      ],
+      "notes": "",
+      "order": 3,
+      "svg": "layers/03_costume_train.svg",
+      "png": "layers/03_costume_train.png",
+      "sha256": "22c28d6f205ef4982e41d6b6cd5149b1cda169fe20084ccc57bb1161715318e5"
+    },
+    {
+      "id": "body",
+      "label": "身體・完整頸肩軀幹",
+      "rig": "body",
+      "pivot": [
+        300,
+        449
+      ],
+      "notes": "頸部延伸到臉後方、雙肩和腰臀在服裝下完整延伸，作為活動遮擋補圖。",
+      "order": 4,
+      "svg": "layers/04_body.svg",
+      "png": "layers/04_body.png",
+      "sha256": "a9409d673e9a26812199b7eba94643378cab80e71c7ddb1b5908dd7103ecb1d9"
+    },
+    {
+      "id": "leg_left",
+      "label": "角色右腿・淺襪",
+      "rig": "static",
+      "pivot": [
+        276,
+        498
+      ],
+      "notes": "",
+      "order": 5,
+      "svg": "layers/05_leg_left.svg",
+      "png": "layers/05_leg_left.png",
+      "sha256": "939e7f6f04ed5db6ccac34d1747ccd276b28e71be620e554d2ae50d99ce31808"
+    },
+    {
+      "id": "leg_right",
+      "label": "角色左腿・深色長襪",
+      "rig": "static",
+      "pivot": [
+        330,
+        498
+      ],
+      "notes": "",
+      "order": 6,
+      "svg": "layers/06_leg_right.svg",
+      "png": "layers/06_leg_right.png",
+      "sha256": "b6f448f4733031f191e07761b8c93262b27edd37b8720f44950c095b5464b4a6"
+    },
+    {
+      "id": "boot_left",
+      "label": "黑金短靴",
+      "rig": "static",
+      "pivot": [
+        251,
+        972
+      ],
+      "notes": "",
+      "order": 7,
+      "svg": "layers/07_boot_left.svg",
+      "png": "layers/07_boot_left.png",
+      "sha256": "171ebf08e12dacddeb7816547b3e170dc931821871dd39dcc5dce789b3dc7dad"
+    },
+    {
+      "id": "boot_right",
+      "label": "黑金短靴",
+      "rig": "static",
+      "pivot": [
+        347,
+        972
+      ],
+      "notes": "",
+      "order": 8,
+      "svg": "layers/08_boot_right.svg",
+      "png": "layers/08_boot_right.png",
+      "sha256": "7b433e479028702bf40234ec0372d2c5a65174772993f7b076644b005fa411b1"
+    },
+    {
+      "id": "arm_left",
+      "label": "角色右手臂與手",
+      "rig": "armL",
+      "pivot": [
+        225,
+        260
+      ],
+      "notes": "",
+      "order": 9,
+      "svg": "layers/09_arm_left.svg",
+      "png": "layers/09_arm_left.png",
+      "sha256": "a561dc69128833a1c5671458a3e9b37383c97a2bd0f536809b07d258fc7b6c74"
+    },
+    {
+      "id": "arm_right",
+      "label": "角色左手臂與手",
+      "rig": "armR",
+      "pivot": [
+        375,
+        260
+      ],
+      "notes": "",
+      "order": 10,
+      "svg": "layers/10_arm_right.svg",
+      "png": "layers/10_arm_right.png",
+      "sha256": "91f161c84635876911521cc2412da6a30889a89cc377abfb2aa2d728398f3310"
+    },
+    {
+      "id": "sleeve_left",
+      "label": "角色右側露肩袖",
+      "rig": "armL",
+      "pivot": [
+        225,
+        260
+      ],
+      "notes": "",
+      "order": 11,
+      "svg": "layers/11_sleeve_left.svg",
+      "png": "layers/11_sleeve_left.png",
+      "sha256": "96ab06da2f871b0cb36d6401273f19630d53e180b1cb114f3fbd6211bdab7bb6"
+    },
+    {
+      "id": "sleeve_right",
+      "label": "角色左側露肩袖",
+      "rig": "armR",
+      "pivot": [
+        375,
+        260
+      ],
+      "notes": "",
+      "order": 12,
+      "svg": "layers/12_sleeve_right.svg",
+      "png": "layers/12_sleeve_right.png",
+      "sha256": "578360a6c6de60416be27fa4b31896be49842c42eb1574cc786358f7b65d79a4"
+    },
+    {
+      "id": "costume_skirt",
+      "label": "非對稱白紫前裙",
+      "rig": "body",
+      "pivot": [
+        300,
+        449
+      ],
+      "notes": "",
+      "order": 13,
+      "svg": "layers/13_costume_skirt.svg",
+      "png": "layers/13_costume_skirt.png",
+      "sha256": "1ebea167a707d70b2bed00e0f207baec1a6ecb31ba9beebef7d6aac4341ffdd3"
+    },
+    {
+      "id": "costume_bodice",
+      "label": "白色胸衣與黑色束腰",
+      "rig": "body",
+      "pivot": [
+        300,
+        449
+      ],
+      "notes": "",
+      "order": 14,
+      "svg": "layers/14_costume_bodice.svg",
+      "png": "layers/14_costume_bodice.png",
+      "sha256": "0a7bf0f49cff02cb8dfe0ad70da88dca28cd057c6834561d325d25e9a6998dd0"
+    },
+    {
+      "id": "neck_accessory",
+      "label": "黑色頸飾與肩帶",
+      "rig": "body",
+      "pivot": [
+        300,
+        239
+      ],
+      "notes": "",
+      "order": 15,
+      "svg": "layers/15_neck_accessory.svg",
+      "png": "layers/15_neck_accessory.png",
+      "sha256": "900a0ad9f26c025ee4e75ccb230056ad586c8e4c1ecdcc4f029e59b42e6a12a5"
+    },
+    {
+      "id": "costume_jewels",
+      "label": "腰花與金色飾件",
+      "rig": "body",
+      "pivot": [
+        300,
+        449
+      ],
+      "notes": "",
+      "order": 16,
+      "svg": "layers/16_costume_jewels.svg",
+      "png": "layers/16_costume_jewels.png",
+      "sha256": "eb29fa63d1ca9a6e82a9ec6ee82330baa26c0e4a1b28d02fc9985f1b1c49c218"
+    },
+    {
+      "id": "face",
+      "label": "臉部・完整底色",
+      "rig": "head",
+      "pivot": [
+        300,
+        218
+      ],
+      "notes": "眼睛、眉毛與嘴巴底下皆保留完整臉色，不會因眨眼露出洞。",
+      "order": 17,
+      "svg": "layers/17_face.svg",
+      "png": "layers/17_face.png",
+      "sha256": "e32ba47df71db8c3e10806548f8bb83ac61f3837e6b9efc16e1b9a8a25e7697c"
+    },
+    {
+      "id": "eye_left",
+      "label": "眼睛・紫色虹膜",
+      "rig": "head",
+      "pivot": [
+        270,
+        156
+      ],
+      "notes": "",
+      "order": 18,
+      "svg": "layers/18_eye_left.svg",
+      "png": "layers/18_eye_left.png",
+      "sha256": "eab26c58edd3c346e693f6ffd089dbdd27a332179ecc31246a2a83bcf727af8a"
+    },
+    {
+      "id": "brow_left",
+      "label": "眉毛",
+      "rig": "head",
+      "pivot": [
+        270,
+        139
+      ],
+      "notes": "",
+      "order": 19,
+      "svg": "layers/19_brow_left.svg",
+      "png": "layers/19_brow_left.png",
+      "sha256": "f3c4fd34c972139dc7bae60ca85bb7685b32dee966c32ef65d593ffff3fa7125"
+    },
+    {
+      "id": "eye_right",
+      "label": "眼睛・紫色虹膜",
+      "rig": "head",
+      "pivot": [
+        330,
+        156
+      ],
+      "notes": "",
+      "order": 20,
+      "svg": "layers/20_eye_right.svg",
+      "png": "layers/20_eye_right.png",
+      "sha256": "36ac8abe36947305dcf73688445f89a11cc47d93121fc418905c30ab2ec20e38"
+    },
+    {
+      "id": "brow_right",
+      "label": "眉毛",
+      "rig": "head",
+      "pivot": [
+        330,
+        139
+      ],
+      "notes": "",
+      "order": 21,
+      "svg": "layers/21_brow_right.svg",
+      "png": "layers/21_brow_right.png",
+      "sha256": "0a5e4d1f397282318d1289d9a87a7abd16da738467628f7ed697bcb6ff87b5a1"
+    },
+    {
+      "id": "mouth",
+      "label": "嘴巴・閉口與開口",
+      "rig": "head",
+      "pivot": [
+        300,
+        194
+      ],
+      "notes": "",
+      "order": 22,
+      "svg": "layers/22_mouth.svg",
+      "png": "layers/22_mouth.png",
+      "sha256": "eafdc80d71fc4f9f64dcabba3551eb53a221ae8bd55a7c097208deeba362c157"
+    },
+    {
+      "id": "hair_front",
+      "label": "前髮・分束瀏海",
+      "rig": "head",
+      "pivot": [
+        300,
+        110
+      ],
+      "notes": "",
+      "order": 23,
+      "svg": "layers/23_hair_front.svg",
+      "png": "layers/23_hair_front.png",
+      "sha256": "e5df6d44b01041edf78db5487cb994d91f2cae3c98d4c466cfa5c81a9df80385"
+    },
+    {
+      "id": "hair_side_left",
+      "label": "左側髮束",
+      "rig": "hairFrontL",
+      "pivot": [
+        247,
+        136
+      ],
+      "notes": "",
+      "order": 24,
+      "svg": "layers/24_hair_side_left.svg",
+      "png": "layers/24_hair_side_left.png",
+      "sha256": "028cf67f2639b2ea387fee660fecbea35f600f348f70689097c505b0cb3d3f1f"
+    },
+    {
+      "id": "hair_side_right",
+      "label": "右側髮束",
+      "rig": "hairFrontR",
+      "pivot": [
+        351,
+        136
+      ],
+      "notes": "",
+      "order": 25,
+      "svg": "layers/25_hair_side_right.svg",
+      "png": "layers/25_hair_side_right.png",
+      "sha256": "ad69a27b7c540a3db58680d24fe530ca3c6c6bb85bd5cdddb9fb69dced30e6a4"
+    },
+    {
+      "id": "hair_ornament",
+      "label": "左側紫色緞帶與花飾",
+      "rig": "head",
+      "pivot": [
+        246,
+        113
+      ],
+      "notes": "",
+      "order": 26,
+      "svg": "layers/26_hair_ornament.svg",
+      "png": "layers/26_hair_ornament.png",
+      "sha256": "575db55bba784425bc553459c1816fbd590b11883bb8865e01c1a21145480f66"
+    }
+  ],
+  "parameters": {
+    "eyeOpen": [
+      0,
+      1
+    ],
+    "mouthOpen": [
+      0,
+      1
+    ],
+    "breath": [
+      0,
+      1
+    ],
+    "headAngle": [
+      -5,
+      5
+    ],
+    "hairSway": [
+      -4,
+      4
+    ]
+  },
+  "master_sha256": "0b8c73ac10142ef4de9397bbfc354d9a55f844950ca1fec43de66d8f1e36b325"
+}

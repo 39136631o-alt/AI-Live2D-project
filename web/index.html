@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#161621"><title>銀鈴 Silverbell · 角色動態測試</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="topbar"><a class="brand" href="./"><span class="brand-mark">✧</span><span>CHARACTER LAB<small>AI-Live2D-project</small></span></a><span class="prototype">分層動畫原型 <i></i> LOCAL</span></header>
+<main>
+<section class="viewer" aria-label="角色預覽">
+  <div class="stage-heading"><span class="eyebrow">CHARACTER / 001</span><span class="render-tag">SVG · 27 LAYERS</span></div>
+  <div class="stage" id="stage">
+    <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
+    <div class="stage-caption" aria-hidden="true">SILVER<br>BELL</div>
+    <div class="floor"></div>
+    <div id="character-host" role="button" tabindex="0" aria-label="與銀鈴互動：點擊或按 Enter 打招呼"><p id="loading" role="status">正在載入分層角色…</p></div>
+    <div id="greeting" role="status" aria-live="polite"></div>
+    <span class="stage-note">原創程式繪圖 · 依提供的設計板簡化重繪</span>
+  </div>
+  <div class="stage-footer"><span><i class="live-dot"></i><span id="play-state">即時動畫</span></span><span>點擊角色打招呼 <span class="key">↗</span></span></div>
+</section>
+<aside class="panel">
+  <div class="identity"><span class="eyebrow">REFERENCE-GUIDED CHARACTER</span><h1>銀鈴<span>Silverbell</span></h1><p>銀白長髮、紫色雙瞳與白紫黑禮裝。<br>以完整分層素材，開始一段可互動的故事。</p><div class="tags"><span>成年角色 · 20+</span><span>正面全身</span><span>幻想風</span></div></div>
+  <section class="control-section"><div class="section-heading"><h2>表情</h2><span>EXPRESSION</span></div><div class="expressions" role="group" aria-label="表情選擇"><button data-expression="neutral" aria-pressed="true">平靜</button><button data-expression="happy" aria-pressed="false">微笑</button><button data-expression="surprised" aria-pressed="false">驚訝</button></div></section>
+  <section class="control-section"><div class="section-heading"><h2>自動動態</h2><span>AUTOMATION</span></div><div class="toggles">
+    <label><input type="checkbox" data-option="blink" checked><span>自然眨眼</span><span class="switch"></span></label>
+    <label><input type="checkbox" data-option="talk"><span>說話口型</span><span class="switch"></span></label>
+    <label><input type="checkbox" data-option="breathe" checked><span>呼吸起伏</span><span class="switch"></span></label>
+    <label><input type="checkbox" data-option="sway" checked><span>頭部微擺</span><span class="switch"></span></label>
+    <label><input type="checkbox" data-option="hair" checked><span>髮絲慣性</span><span class="switch"></span></label>
+  </div></section>
+  <section class="control-section"><div class="section-heading"><h2>手動參數</h2><span>PARAMETERS</span></div><p class="hint">拖動時會關閉相應的自動動畫。</p>
+  <div class="sliders">
+    <label for="eyeOpen">眼睛開合 <output id="eyeOpen-value">1.00</output></label><input id="eyeOpen" data-parameter="eyeOpen" type="range" min="0" max="1" step=".01" value="1">
+    <label for="mouthOpen">嘴巴開合 <output id="mouthOpen-value">0.00</output></label><input id="mouthOpen" data-parameter="mouthOpen" type="range" min="0" max="1" step=".01" value="0">
+    <label for="headAngle">頭部角度 <output id="headAngle-value">0.00°</output></label><input id="headAngle" data-parameter="headAngle" type="range" min="-5" max="5" step=".1" value="0">
+    <label for="breath">呼吸幅度 <output id="breath-value">0.00</output></label><input id="breath" data-parameter="breath" type="range" min="0" max="1" step=".01" value="0">
+    <label for="hairSway">頭髮擺動 <output id="hairSway-value">0.00°</output></label><input id="hairSway" data-parameter="hairSway" type="range" min="-4" max="4" step=".1" value="0">
+  </div></section>
+  <div class="actions"><button id="pause" aria-pressed="false">暫停動畫</button><button id="reset">重設</button><button id="greet">打招呼 ↗</button></div>
+  <p id="app-status" class="status" role="status">載入中…</p>
+  <p class="disclosure">簡化向量測試角色，非官方 Live2D Cubism 模型。<br>髮絲使用彈簧近似，尚無真實物理碰撞。</p>
+</aside>
+</main>
+<footer class="page-footer"><span>銀鈴 / SILVERBELL · INTERACTIVE CHARACTER STUDY</span><a href="assets/character/manifest.json">分層素材資料 ↗</a></footer>
+<script type="module" src="app.mjs"></script>
+</body></html>
