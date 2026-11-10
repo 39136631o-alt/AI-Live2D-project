@@ -4,7 +4,7 @@ const host=document.querySelector('#character-host');
 const status=document.querySelector('#app-status');
 const controls=[...document.querySelectorAll('button,input')];
 controls.forEach(element=>element.disabled=true);
-let character, greetingTimer;
+let character, greetingTimer, interactionIndex=0;
 function sync() {
   for(const input of document.querySelectorAll('[data-option]')) input.checked=character.options[input.dataset.option];
   for(const input of document.querySelectorAll('[data-parameter]')) {
@@ -39,7 +39,12 @@ try {
   });
   for(const button of document.querySelectorAll('[data-expression]')) button.addEventListener('click',()=>{character.reactionEnd=0;character.setExpression(button.dataset.expression);sync();});
   const greet=()=>character.triggerReaction();
-  host.addEventListener('click',greet);
+  const interact=()=>character.triggerReaction(['greeting','smile','surprise'][interactionIndex++%3]);
+  for(const button of document.querySelectorAll('[data-reaction]')) button.addEventListener('click',()=>character.triggerReaction(button.dataset.reaction));
+  character.addEventListener('performance',event=>{
+    document.querySelector('#fps-value').textContent=event.detail.fps===null?(event.detail.paused?'暫停':'量測中'):`${event.detail.fps.toFixed(1)} FPS`;
+  });
+  host.addEventListener('click',interact);
   host.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();greet();}});
   host.addEventListener('pointermove',event=>{
     if(event.pointerType==='touch') return;
@@ -49,7 +54,7 @@ try {
   host.addEventListener('pointerleave',()=>character.setLook(0));
   document.querySelector('#greet').addEventListener('click',greet);
   character.addEventListener('interaction',()=>{
-    const bubble=document.querySelector('#greeting');bubble.textContent='你好，很高興見到你。';bubble.classList.add('visible');
+    const bubble=document.querySelector('#greeting');bubble.textContent=({greeting:'你好，很高興見到你。',wave:'嗨！在這裡喔。',smile:'今天也一起加油吧。',surprise:'咦？是你呀！'})[character.reactionType];bubble.classList.add('visible');
     clearTimeout(greetingTimer);greetingTimer=setTimeout(()=>bubble.classList.remove('visible'),2400);
   });
   document.querySelector('#pause').addEventListener('click',event=>{
@@ -59,7 +64,7 @@ try {
     document.querySelector('#play-state').textContent=character.paused?'動畫已暫停':'即時動畫';
   });
   document.querySelector('#reset').addEventListener('click',()=>{
-    character.reset();character.setOptions({blink:true,talk:false,breathe:!reduced,sway:!reduced,hair:!reduced});
+    interactionIndex=0;character.reset();character.setOptions({blink:true,talk:false,breathe:!reduced,sway:!reduced,hair:!reduced,idle:!reduced});
     character.setPaused(false);document.querySelector('#pause').textContent='暫停動畫';document.querySelector('#pause').setAttribute('aria-pressed','false');
     document.querySelector('#play-state').textContent='即時動畫';
     clearTimeout(greetingTimer);document.querySelector('#greeting').classList.remove('visible');sync();

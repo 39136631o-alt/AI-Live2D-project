@@ -66,3 +66,24 @@ PLAYWRIGHT_BROWSERS_PATH=/workspace/.browser-cache CHARACTER_BROWSER=webkit \
 - 新增專案子目錄的瀏覽器測試：同時驗證素材載入、呼吸 transform、自動眨眼、口型、觸控招呼與窄畫面；合計 **22 項 Python 測試通過（0 skipped）及 3 項 JavaScript 測試通過**。
 - workflow YAML 使用可用的 YAML parser 檢查語法及手動觸發設定；尚未在 GitHub Actions 上執行，因此沒有宣稱部署成功。
 - 程式碼整理及暫存完成；尚未建立 commit、推送或公開部署，等待使用者確認。部署操作步驟見 `docs/mobile-preview.md`。
+
+
+## 2026-11-10：第二階段動畫
+
+基準為 GitHub `main` 最新 `0642554cd044c418605674dc10b99b4ba0d50951`，開始前工作目錄乾淨，fetch 後本地與遠端一致。第一階段 iPhone Safari 可運行由使用者回報；以下第二階段結果來自雲端 Chromium，尚未取得新版 iPhone 真機結果。
+
+- `pytest -q`：**24 passed**（保留原有 22 項，新增互動／FPS／快取與接縫像素驗證）。
+- `node --test tests/browser/runtime.test.mjs`：**8 passed**。新增 easing 端點、時間步獨立性、眨眼界限、30/60/120Hz 彈簧穩定性、真實時間 FPS 計數及不合法參數測試。
+- 已重建全部 SVG / PNG，來源雜湊、透明度、圖層重新合成與可重現性測試通過。
+- 極端頭角 +5°、髮擺 +4、抬臂超過 40°，以瀏覽器實際 rasterize SVG，確認雙肩、頸底與腰部 4 個接點 alpha >245。這是接點回歸測試，不是對所有畫素、所有姿勢的無穿模保證。
+- 實際測試揮手／微笑／驚訝、暫停後 SVG 不變、恢復／重設、既有手動參數與 Pages 子路徑正常。render 在初始化後不呼叫 selector 查詢。
+- 390×844、DPR 2 的雲端 headless Chromium，4 秒視窗取到 241 個動畫回呼；FPS 視窗樣本約 60.0，JavaScript render 計時中位數 0.10ms、P95 0.30ms。計時不包含 GPU raster/composite，不可當成 iPhone 60 FPS 保證。原始測量在 `outputs/stage-two-performance.json`；可在專案根目錄用 `.venv/bin/python tools/measure_preview.py` 重現，數值會隨主機負載不同。
+- 截圖 `outputs/stage-two-wave.png`，含完整手機版控制面板。完整素材仍在 `web/assets/character/`。
+- 沒有變更 GitHub Pages 手動工作流程，也沒有觸發公開部署。第二階段目前尚未 commit / push；線上網站仍是先前版本，須另行保存推送及由使用者手動部署才會更新。
+
+尚有限制：整臂揮手仍非肘腕骨架；沒有碰撞、網格變形與實際轉面；大幅動作下的局部遮擋、美術品質仍需人工檢查。這是非 Cubism 的 2D 分層原型。
+
+
+## 2026-11-10：眼睛修正與保存
+
+保留全部第二階段修改後追加眼睛品質修正，預設自然睜眼微笑。25 項 Python／瀏覽器測試與 10 項 JavaScript 測試通過；眼睛前後對比存於 `docs/eye-review/eyes-before-after.png`。詳細變更、非眼睛素材不變的確認與眨眼測試見 `docs/eye-design.md`。使用者已授權將第二階段與本次修正一起 commit / push 至 main；前述「尚未 commit / push」為當時紀錄，最終提交結果以 GitHub commit 紀錄為準。未授權本輪公開部署，手動 Pages 工作流程不變。

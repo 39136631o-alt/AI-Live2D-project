@@ -62,7 +62,7 @@ def make_layers():
         path('M240 448 L180 848 L210 815 L231 847 L282 495 M359 448 L425 866 L399 832 L378 867 L320 497', 'url(#silk)', '#d6c8e3', 2) +
         path('M206 530 Q177 730 158 876 M386 535 Q425 750 460 906', 'none', '#c3b193', 2))
     add('body', '身體・完整頸肩軀幹', 'body', [300, 449],
-        path('M278 193 L322 193 Q319 221 334 232 Q355 235 375 254 L365 305 Q342 335 337 392 L349 467 Q302 499 250 467 L265 389 Q257 333 235 305 L223 255 Q243 238 265 233 Q280 222 278 193Z', 'url(#skin)'),
+        path('M275 187 L325 187 Q319 221 334 232 Q355 235 375 254 L365 305 Q342 335 337 392 L349 467 Q302 499 250 467 L265 389 Q257 333 235 305 L223 255 Q243 238 265 233 Q280 222 278 193Z', 'url(#skin)'),
         '頸部延伸到臉後方、雙肩和腰臀在服裝下完整延伸，作為活動遮擋補圖。')
     add('leg_left', '角色右腿・淺襪', 'static', [276, 498],
         path('M252 471 Q283 466 291 499 L286 697 Q285 724 274 753 L265 985 Q253 1000 237 982 L236 759 Q225 735 230 699 L232 530Z', 'url(#skin)') +
@@ -77,7 +77,7 @@ def make_layers():
             path(f'M{x-15} 916 L{x} 930 L{x+15} 916 L{x+12} 988 Q{x+32} 1015 {x+16} 1024 Q{x} 1032 {x-23} 1020 L{x-19} 994Z', 'url(#dark)', '#c4ad8e', 2) +
             path(f'M{x} 935 L{x-6} 970 L{x+2} 994 L{x-8} 1022 M{x-13} 956 L{x+11} 972 M{x-13} 977 L{x+9} 993', 'none', '#d7c2a0', 1.5) + jewel(x,946,8))
     # Arms include hidden shoulder caps and individually drawn fingers.
-    arm = path('M225 250 Q242 245 247 270 L230 347 Q218 379 212 425 L196 458 Q187 465 184 452 L192 420 Q198 372 207 342 L210 275Z', 'url(#skin)') + path('M195 425 L185 453 M201 431 L192 461 M206 432 L200 455', 'none', '#c18f9f', 1)
+    arm = ellipse(225,260,16,17,'url(#skin)') + path('M225 250 Q242 245 247 270 L230 347 Q218 379 212 425 L196 458 Q187 465 184 452 L192 420 Q198 372 207 342 L210 275Z', 'url(#skin)') + path('M195 425 L185 453 M201 431 L192 461 M206 432 L200 455', 'none', '#c18f9f', 1)
     add('arm_left', '角色右手臂與手', 'armL', [225, 260], arm)
     add('arm_right', '角色左手臂與手', 'armR', [375, 260], f'<g transform="translate(600 0) scale(-1 1)">{arm}</g>')
     sleeve = path('M209 261 Q229 274 249 268 L237 299 L222 337 L238 362 L213 390 L191 364 L181 335 L199 299Z', 'url(#silk)') + path('M201 300 L212 319 L195 355 L213 378 L223 363 L215 343 L229 301', 'url(#violet)', '#b5a5c7', 1) + path('M211 270 L202 287 L214 282 L221 294 L233 276', 'url(#silk)') + jewel(217,295,6)
@@ -104,11 +104,26 @@ def make_layers():
         ellipse(262,180,20,10,'url(#blush)') + ellipse(338,180,20,10,'url(#blush)') + path('M300 165 L297 178 L301 180', 'none', '#d4a7b3', 1),
         '眼睛、眉毛與嘴巴底下皆保留完整臉色，不會因眨眼露出洞。')
     for side, x in [('left',270), ('right',330)]:
-        # Closed lids and open eyes live in separate wrappers for crossfade/scale animation.
-        eye = path(f'M{x-19} 155 Q{x} 143 {x+19} 155 Q{x+10} 174 {x-7} 170Z', '#fffafc', '#74617e', 1)
-        eye += ellipse(x,158,10,12,'url(#iris)') + ellipse(x,155,3.5,8,'#41324f') + ellipse(x-3,152,3.5,3.5,'#fff') + ellipse(x+4,163,2,1.7,'#ffe8fd')
-        eye += path(f'M{x-21} 151 Q{x-3} 139 {x+20} 153 M{x-18} 150 L{x-23} 146 M{x-13} 147 L{x-16} 143', 'none', '#514053', 2.8)
-        add(f'eye_{side}', '眼睛・紫色虹膜', 'head', [x,156], f'<g id="eye_open_{side}">{eye}</g><g id="eye_closed_{side}" opacity="0">'+path(f'M{x-20} 156 Q{x} 169 {x+20} 156 M{x-16} 159 L{x-21} 162', 'none', '#675069', 2.7)+'</g>')
+        # Keep iris pixels fixed. Aperture, whites and lash curves share the same geometry.
+        openness, smile = .94, 1
+        bend = 2 - 8 * smile
+        upper = f'M{x-20} 156 Q{x} {156+bend-22*openness} {x+20} 156'
+        lower = f'M{x+20} 156 Q{x} {156+bend+22*openness} {x-20} 156'
+        aperture = upper + f' Q{x} {156+bend+22*openness} {x-20} 156 Z'
+        eye = f'<defs><clipPath id="iris_clip_{side}"><path id="eye_aperture_{side}" d="{aperture}"/></clipPath></defs>'
+        eye += f'<path id="eye_white_{side}" d="{aperture}" fill="#fffafc"/>'
+        eye += f'<g clip-path="url(#iris_clip_{side})"><g id="iris_{side}">'
+        eye += ellipse(x,156,10.5,13.5,'url(#iris)', 'stroke="#6b4d87" stroke-width=".9"')
+        eye += ellipse(x,155.5,4.5,8.5,'#41324f')
+        eye += path(f'M{x-7} 163 Q{x} 170 {x+7} 163','none','#e6b8ed',1.8)
+        eye += ellipse(x-3.8,151.5,3.2,3.4,'#fffafc') + ellipse(x+4.5,160.5,1.6,2,'#fff0ff')
+        eye += ellipse(x+2,167,2.7,.8,'#f9d5fa') + '</g></g>'
+        eye += f'<path id="eyelid_upper_{side}" d="{upper}" fill="none" stroke="#514053" stroke-width="2.6" stroke-linecap="round"/>'
+        eye += f'<path id="eyelid_lower_{side}" d="{lower}" fill="none" stroke="#a28aa6" stroke-width=".8" stroke-linecap="round"/>'
+        outer = -1 if side == 'left' else 1
+        eye += path(f'M{x+20*outer} 156 Q{x+23*outer} 154 {x+24*outer} 151 M{x+16*outer} 152 L{x+18*outer} 149','none','#514053',1.5)
+        closed = path(f'M{x-20} 156 Q{x} {156+bend} {x+20} 156','none','#675069',2.4, f'id="eyelid_closed_{side}"')
+        add(f'eye_{side}', '眼睛・紫色虹膜', 'head', [x,156], f'<g id="eye_open_{side}">{eye}</g><g id="eye_closed_{side}" opacity="0">{closed}</g>')
         add(f'brow_{side}', '眉毛', 'head', [x,139], path(f'M{x-17} 136 Q{x} 130 {x+15} 137', 'none', '#a28ca7', 2))
     add('mouth', '嘴巴・閉口與開口', 'head', [300,194],
         '<g id="mouth_closed">'+path('M291 194 Q300 199 309 193', 'none', '#b8798e', 1.7)+'</g>'+

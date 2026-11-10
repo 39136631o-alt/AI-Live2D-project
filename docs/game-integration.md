@@ -41,10 +41,10 @@ API：
 | 方法 | 效果 |
 | --- | --- |
 | `setParameter(name, number)` | 設定手動參數；超出範圍會 clamp，未知名稱／NaN 拋錯 |
-| `setOptions({blink,talk,breathe,sway,hair})` | 各值為 boolean；開啟的自動 channel 會覆蓋對應手動值（頭角、髮擺作為偏移） |
-| `setExpression('neutral'/'happy'/'surprised')` | 表情會覆蓋部分眼嘴表現 |
+| `setOptions({blink,talk,breathe,sway,hair,idle})` | 各值為 boolean；開啟的自動 channel 會覆蓋對應手動值（頭角、髮擺作為偏移） |
+| `setExpression('neutral'/'happy'/'closedSmile'/'halfLidded'/'surprised')` | 表情會覆蓋部分眼嘴表現 |
 | `setLook(-1..1)` | 左右微幅注視，映射頭角，非真實側面轉頭 |
-| `triggerReaction()` | 2.4 秒微笑／手臂輕擺並發出 `interaction` 事件；事件詳情為 `{type:'greeting'}` |
+| `triggerReaction(type='greeting')` | 2.4 秒緩動互動，type 可為 greeting / wave / smile / surprise；事件詳情為 `{type}` |
 | `setPaused(boolean)` | 暫停／恢復動畫；暫停時 API 仍可設定靜態姿勢 |
 | `reset()` | 重設時間、姿勢、表情；保留自動選項與暫停狀態，展示頁另行重設它們 |
 | `dispose()` | 取消 RAF 與 visibility listener；終止該實例 |
@@ -62,3 +62,25 @@ API：
 保留 SVG 母版、RGBA PNG、完整遮擋底圖、manifest 名稱／順序／pivot 及參數範圍。這些是可交給美術與綁定師的素材，**不是可直接匯入的 Cubism 模型**。預計流程：在授權合適的影像工具整理符合當期 Editor 要求的 PSD → Cubism Editor 建立 ArtMesh、變形器、參數鍵形、裁切與物理 → 由官方支援的匯出流程產生 `.moc3` 及附屬資料 → 以適用授權的 SDK 測試。現有 SVG transform 與彈簧設定不能無損轉成 Cubism rig。
 
 本專案未打包任何官方 Core、官方角色素材或第三方模型權重。新增程式及向量路徑由本專案製作，外觀依使用者提供的設計參考；正式商用前仍需由素材提供者確認設計權利與選定專案散布授權。
+
+
+## 第二階段 runtime 更新
+
+整合時必須連同 `web/motion.mjs` 一起複製。原有五個手動參數與 `triggerReaction()` 呼叫相容；新增 `idle` 選項控制軀幹與衣裙待機。`triggerReaction('wave')` 為整臂繞肩抬起與擺動，沒有手肘骨架或 IK。`smile`、`surprise` 使用平滑表情權重。減少動態模式預設關閉 idle、呼吸、頭擺、髮動，也不執行大幅抬臂；仍可觸發表情和招呼。
+
+`performance` 事件詳情為 `{fps, paused}`。fps 是約 750ms 視窗內的實際 RAF callback 次數 / 經過時間，不是硬編碼 60，也不代表 GPU 實際呈現的每一張畫面、CPU 使用率或 iPhone 真機效能。暫停／恢復時 fps 為 null。可自行註冊：
+
+```js
+actor.addEventListener('performance', ({detail}) => {
+  fpsLabel.textContent = detail.fps === null ? '—' : detail.fps.toFixed(1);
+});
+actor.triggerReaction('surprise');
+actor.setOptions({idle: false});
+```
+
+彈簧在每幀最大 50ms 之內再細分為約 8.3ms 積分步，降低 30/60/120Hz 下的差異。髮束使用與頭相同的母變換，局部擺角限制在前髮 ±1.8°、後髮 ±2.6°；手動 hairSway 範圍保留，但套用到每束時仍受安全限制。衣裙 pivot 在腰帶覆蓋範圍內，避免上緣分離。這些限制與重疊補圖僅適用目前正面小幅測試角色，沒有碰撞保證。
+
+
+## 眼睛更新相容性
+
+請一併複製 `eyes.mjs`。預設表情及 reset 改為 `happy`（94% 睜眼微笑）；閉眼微笑改用 `closedSmile`，半瞇眼使用 `halfLidded`。舊的 `happy` API 仍可用，但不再把眼球整組壓扁。新眼皮 path、clipPath 及眼白共用幾何，虹膜固定；若有自訂 SVG，需要包含新 `eye_aperture_*`、`eye_white_*`、`eyelid_*` 節點。詳見 `docs/eye-design.md`。

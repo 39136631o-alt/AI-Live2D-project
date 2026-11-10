@@ -154,3 +154,91 @@ def test_pages_project_subpath_and_all_animation_channels(browser,url):
         assert not errors
     finally:
         context.close()
+
+
+def test_stage_two_fps_reactions_and_cache(browser,url):
+    context,page,errors=ready(browser,url,viewport={'width':390,'height':844},is_mobile=True,has_touch=True)
+    try:
+        page.wait_for_function("/\\d+\\.\\d FPS/.test(document.querySelector('#fps-value').textContent)")
+        fps=page.locator('#fps-value').inner_text()
+        assert float(fps.split()[0])>0
+        page.get_by_role('button',name='揮手',exact=True).click()
+        page.wait_for_function('Math.abs(character.waveAngle)>35')
+        page.get_by_role('button',name='驚訝互動',exact=True).click()
+        assert page.locator('svg').get_attribute('data-expression')=='surprised'
+        page.get_by_role('button',name='微笑互動',exact=True).click()
+        assert page.locator('svg').get_attribute('data-expression')=='happy'
+        # Face nodes are cached: rendering must not issue selector queries.
+        page.evaluate("""() => {
+          character.svg.querySelector=()=>{throw new Error('Per-frame selector');};
+          character.render();
+          delete character.svg.querySelector;
+        }""")
+        page.locator('#pause').click()
+        assert page.locator('#fps-value').inner_text()=='暫停'
+        before=page.locator('#character-host').inner_html()
+        page.wait_for_timeout(150)
+        assert before==page.locator('#character-host').inner_html()
+        page.locator('#reset').click()
+        assert page.get_by_label('待機連動',exact=True).is_checked()
+        assert not errors
+    finally:
+        context.close()
+
+
+def test_joint_coverage_during_extreme_pose(browser,url):
+    context,page,errors=ready(browser,url)
+    try:
+        page.locator('#headAngle').fill('5')
+        page.locator('#hairSway').fill('4')
+        page.get_by_role('button',name='揮手',exact=True).click()
+        page.wait_for_function('Math.abs(character.waveAngle)>40')
+        page.evaluate('character.setPaused(true)')
+        coverage=page.evaluate('''async () => {
+          const svg=character.svg;
+          const matrix=svg.getCTM().inverse().multiply(svg.querySelector('#body').getCTM());
+          const points=[[225,260],[375,260],[300,210],[280,460]].map(([x,y])=>new DOMPoint(x,y).matrixTransform(matrix));
+          const image=new Image();
+          const blob=new Blob([new XMLSerializer().serializeToString(svg)],{type:'image/svg+xml'});
+          const url=URL.createObjectURL(blob);
+          try {
+            await new Promise((resolve,reject)=>{image.onload=resolve;image.onerror=reject;image.src=url;});
+            const canvas=document.createElement('canvas');canvas.width=600;canvas.height=1100;
+            const ctx=canvas.getContext('2d');ctx.drawImage(image,0,0,600,1100);
+            return points.map(p=>ctx.getImageData(Math.round(p.x),Math.round(p.y),1,1).data[3]);
+          } finally {URL.revokeObjectURL(url);}
+        }''')
+        assert min(coverage)>245,coverage
+        assert not errors
+    finally:
+        context.close()
+
+
+def test_eye_expression_quality_and_blink_alignment(browser,url):
+    context,page,errors=ready(browser,url)
+    try:
+        assert page.locator('svg').get_attribute('data-expression')=='happy'
+        page.evaluate("character.setOptions({blink:false,talk:false,breathe:false,sway:false,hair:false,idle:false});character.setPaused(true)")
+        iris=page.locator('#iris_left')
+        fixed=iris.evaluate('node=>({bbox:node.getBBox().toJSON?.()??[node.getBBox().x,node.getBBox().y,node.getBBox().width,node.getBBox().height],matrix:node.getCTM().toString()})')
+        paths=[]
+        for expression in ['happy','closedSmile','halfLidded']:
+            page.evaluate('(name)=>character.setExpression(name)',expression)
+            paths.append(page.locator('#eye_aperture_left').get_attribute('d'))
+            if expression=='closedSmile':
+                assert page.locator('#eye_open_left').get_attribute('opacity')=='0'
+                assert page.locator('#eye_closed_left').get_attribute('opacity')=='1'
+            else:
+                assert page.locator('#eye_open_left').get_attribute('opacity')=='1'
+        assert len(set(paths))==3
+        page.evaluate("character.setExpression('happy')")
+        # Scan a full blink: the pupil remains fixed while aperture and eye whites agree.
+        for value in [1,.75,.5,.25,.01,0,.25,.5,.75,1]:
+            page.evaluate('(v)=>character.setParameter("eyeOpen",v)',value)
+            assert page.locator('#eye_white_left').get_attribute('d')==page.locator('#eye_aperture_left').get_attribute('d')
+            assert iris.get_attribute('transform') is None
+            assert iris.evaluate('node=>({bbox:node.getBBox().toJSON?.()??[node.getBBox().x,node.getBBox().y,node.getBBox().width,node.getBBox().height],matrix:node.getCTM().toString()})')==fixed
+            assert page.locator('#eye_open_left').get_attribute('transform') is None
+        assert not errors
+    finally:
+        context.close()

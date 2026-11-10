@@ -91,7 +91,7 @@
       "order": 4,
       "svg": "layers/04_body.svg",
       "png": "layers/04_body.png",
-      "sha256": "a9409d673e9a26812199b7eba94643378cab80e71c7ddb1b5908dd7103ecb1d9"
+      "sha256": "85e604289b0e3a191d67d344ad20fcb4667a95787bbf9b37738b30cc1e471a33"
     },
     {
       "id": "leg_left",
@@ -161,7 +161,7 @@
       "order": 9,
       "svg": "layers/09_arm_left.svg",
       "png": "layers/09_arm_left.png",
-      "sha256": "a561dc69128833a1c5671458a3e9b37383c97a2bd0f536809b07d258fc7b6c74"
+      "sha256": "7943f9ca715d569a50596c1402f209d954698496ce37c244c6facc3433709cd0"
     },
     {
       "id": "arm_right",
@@ -175,7 +175,7 @@
       "order": 10,
       "svg": "layers/10_arm_right.svg",
       "png": "layers/10_arm_right.png",
-      "sha256": "91f161c84635876911521cc2412da6a30889a89cc377abfb2aa2d728398f3310"
+      "sha256": "281fb577a4809f91a6a289690b67da4cb9d99f0222c4b2f3a87fd1c94539afa2"
     },
     {
       "id": "sleeve_left",
@@ -287,7 +287,7 @@
       "order": 18,
       "svg": "layers/18_eye_left.svg",
       "png": "layers/18_eye_left.png",
-      "sha256": "eab26c58edd3c346e693f6ffd089dbdd27a332179ecc31246a2a83bcf727af8a"
+      "sha256": "98c567aba7971484e09e09d887725d8c968f05647453fd4a079a68d0e78160e5"
     },
     {
       "id": "brow_left",
@@ -315,7 +315,7 @@
       "order": 20,
       "svg": "layers/20_eye_right.svg",
       "png": "layers/20_eye_right.png",
-      "sha256": "36ac8abe36947305dcf73688445f89a11cc47d93121fc418905c30ab2ec20e38"
+      "sha256": "2da23c28ce410f5e642d921e3b9b3d1514a78809227ef764e1ed81c98f0c3950"
     },
     {
       "id": "brow_right",
@@ -424,5 +424,5 @@
       4
     ]
   },
-  "master_sha256": "0b8c73ac10142ef4de9397bbfc354d9a55f844950ca1fec43de66d8f1e36b325"
+  "master_sha256": "3060f2ff83ccb1a1498f4dc1364a6c3bfabbcb5222e0557cc2fe9ed3cbf3d279"
 }
